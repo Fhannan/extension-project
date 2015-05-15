@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+    <link rel="Shortcut Icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+
+    {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% endblock %}
+    {% block user_resources %}
+    {% endblock %}
+
+    {% block css_style %}
+<style>
+
+</style>
+    {% endblock %}
+
+
+</head>
+<body>
+
+ {% block topbar %}
+
+ <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+     <div class="container">
+        <ul class="nav navbar-nav navbar-left">
+
+            <li><a class='brand' href='{{ url_for('frontend.index') }}'><img src="{{ url_for('static', filename='img/attach.png') }}" /></a></li>
+
+              {% if current_user.has_role('Admin')%}
+         <ul class="nav navbar-nav">
+            <li><a href="{{ url_for_security('logout')}}">Logout</a></li>
+            <li><a href="{{ url_for_security('change_password')}}">ChangePassword</a></li>
+            <li><a href="{{ url_for('settings.update_profile')}}">Update Profile</a></li>
+            <li><a href="{{ url_for('admin.all_links')}}">All Links</a></li>
+            <li><a href="{{ url_for('admin.all_users')}}">All Users</a></li>
+               {% endif %}
+         </ul>
+
+        </ul class="nav navbar-nav navbar-right">
+            {% if current_user.has_role('Admin') == True %}
+            <p class="navbar-text navbar-right">Signed in as
+                <span>{{ current_user.email }}(Admin)</span>
+
+            </p>
+            {% endif %}
+
+     </div>
+
+</div>
+ {% endblock %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+
+    {% block flash_message %}
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                <div class="row">
+                    <div id='flash_message_container' class="col-lg-12">
+                        {% for category, msg in messages %}
+                            <div class="alert alert-{{ category }}">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
+
+    {% block content %}
+    {% block body %}
+    <h4>This is the hello page...this is for admin</h4>
+    {% endblock %}
+
+    {% endblock %}
+
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+  <div class="container">
+    this is the bottom of the navbar
+  </div>
+</nav>
+
+</div>
+
+</body>
+</html>

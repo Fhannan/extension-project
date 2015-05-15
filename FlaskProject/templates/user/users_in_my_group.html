@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+
+<h3>following users are in my group :</h3>
+
+
+        <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+            <tbody>
+             {% for g in groups %}
+                <tr>
+                <td>{{g.email}}</td>
+                <td>{{g.first_name}}</td>
+                <td>{{g.last_name}}</td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+
+    </table>
+
+
+
+ {% endblock %}

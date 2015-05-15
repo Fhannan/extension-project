@@ -1,0 +1,17 @@
+Listen 8000
+<VirtualHost *:8000>
+    ServerName flask.dev
+
+    WSGIDaemonProcess myapp user=mahbub group=www-data threads=500
+    WSGIScriptAlias / /home/mahbub/www/flask/flask-restless/server.wsgi
+
+    <Directory /home/mahbub/www/flask/flask-restless>
+        WSGIProcessGroup myapp
+        WSGIScriptReloading On
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+
+

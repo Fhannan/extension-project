@@ -1,0 +1,47 @@
+{% macro render_all_errors(form) %}
+ {% if form.errors %}
+      <div class="col-lg-12">
+          <div class="alert alert-danger">
+           <ul class="errors">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+             {% for error in field_errors %}
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+             {% endfor %}
+            {% endfor %}
+            </div>
+           </ul>
+        </div>
+    {% endif %}
+{% endmacro %}
+{% macro render_field_without_errors(field) %}
+<div class="form-group{% if field.errors %} error{% endif %}">
+    <label class="control-label"
+        for="{{ field.id }}">
+        {{ field.label }}
+    </label>
+    <div class="controls">
+        {{ field(class='form-control')|safe }}
+        <span class="help-inline">{{ field.description }}</span>
+    </div>
+</div>
+{% endmacro %}
+{% macro render_checkbox(field) %}
+<div class="control-group{% if field.errors %} error{% endif %}">
+    <div class="checkbox">
+        <label for="{{ field.id }}" class="checkbox inline">
+            {{ field }}{{ field.label.text }}
+        </label>
+        <span class="help-inline">{{ field.description }}</span>
+        {% if field.errors -%}
+            {% for error in field.errors -%}
+            <span class="help-block error">{{ error|e }}</span>
+            {%- endfor %}
+        {%- endif %}
+    </div>
+</div>
+{% endmacro%}
+
+{% macro render_field(field) %}
+  <p>{{ field(**kwargs)|safe }}</p>
+{% endmacro %}

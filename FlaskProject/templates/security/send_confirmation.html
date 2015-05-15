@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+<h1>Resend confirmation instructions</h1>
+<form action="{{ url_for_security('send_confirmation') }}" method="POST" name="send_confirmation_form">
+  {{ render_all_errors(send_confirmation_form)}}
+  {{ send_confirmation_form.hidden_tag() }}
+  {{ render_field_without_errors(send_confirmation_form.email) }}
+  {{ render_field(send_confirmation_form.submit) }}
+</form>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+
+<style>
+
+</style>
+
+<h3>Register :</h3> or <a href="{{ url_for('frontend.login_invite',inv=1, grp_id=request.args.get('grp_id'),inv_id=request.args.get('inv_id')) }}"> login </a> if already registered
+<form action="reg_invite" method="POST">
+ <div class="row">
+    <div class="col-lg-6">
+  <br>
+  <b>email:</b> <br><br>
+  <b>{{email}}</b><br>
+  <input type="hidden" name="groupid" value="{{grp_id}}"><br>
+  <input type="hidden" name="invid" value="{{inv_id}}"><br>
+  <input type="hidden" name="email" value="{{email}}"><br>
+  {{ render_all_errors(form)}}
+  {{ render_field_without_errors(form.password) }}
+  {{ render_field_without_errors(form.confirm) }}
+   <p><input type=submit value=Register></p>
+</form>
+    </div>
+</div>
+ {% endblock %}

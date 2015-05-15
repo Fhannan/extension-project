@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+
+<h1>Profile :</h1>
+<form action="update_profile" method="POST">
+ <div class="row">
+    <div class="col-lg-6">
+  {{ render_all_errors(form)}}
+  {{ render_field_without_errors(form.first_name) }}
+  {{ render_field_without_errors(form.last_name) }}
+   <p><input type=submit value=Update Profile></p>
+</form>
+    </div>
+</div>
+ {% endblock %}

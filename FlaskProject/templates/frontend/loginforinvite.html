@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+
+<style>
+    
+</style>
+<h3>Login :</h3>
+<form action="log_invite" method="POST">
+ <div class="row">
+    <div class="col-lg-6">
+  <br>
+  <b>email:</b> <br><br>
+  <b>{{email}}</b><br>
+  <input type="hidden" name="groupid" value={{grp_id}}><br>
+  <input type="hidden" name="invid" value={{inv_id}}><br>
+  <input type="hidden" name="email" value="{{email}}"><br>
+  {{ render_all_errors(form)}}
+  {{ render_field_without_errors(form.password) }}
+
+   <p><input type=submit value=Login></p>
+</form>
+    </div>
+</div>
+ {% endblock %}

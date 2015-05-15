@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+    <link rel="Shortcut Icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+
+    {% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% endblock %}
+    {% block user_resources %}
+    {% endblock %}
+
+    {% block css_style %}
+<style>
+.color{
+    background-color :red;
+    }
+</style>
+    {% endblock %}
+
+    <!--{% block js %}-->
+    <!--<script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>-->
+    <!--{% endblock %}-->
+
+</head>
+<body>
+
+ {% block topbar %}
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+    <ul class="nav navbar-nav navbar-left">
+        <li><a class='brand' href='{{ url_for('frontend.index') }}'><img src="{{ url_for('static', filename='img/attach.png') }}" /></a></li>
+    </ul>
+          {% if not current_user.is_authenticated() and not request.args.get('inv')  %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ url_for('security.register')}}" class="btn btn-success btn-large"><strong>Sign up »</strong></a></li>
+        <li><a href="{{ url_for('security.login') }}">Login</a></li>
+        <li><a href="{{ url_for('fbook.login') }}">Login by FACEBOOK</a></li>
+        <li><a href="{{ url_for('twits.login') }}">Login by TWITTER</a></li>
+        <li><a href="{{ url_for('googs.login') }}">Login by GOOGLE</a></li>
+        <li><a href="{{ url_for('security.forgot_password')}}">ForgotPassword</a></li>
+          {% endif %}
+
+                {% if (not current_user.is_authenticated()) and (request.args.get('inv')) %}
+                <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('fbook.login',grp_id=request.args.get('grp_id'),inv_id=request.args.get('inv_id')) }}">invited(LOGIN by FB) - {{request.args.get('grp_id')}}</a></li>
+                <li><a href="{{ url_for('twits.login',grp_id=request.args.get('grp_id'),inv_id=request.args.get('inv_id')) }}">invited(LOGIN by TW) - {{request.args.get('grp_id')}}</a></li>
+                <li><a href="{{ url_for('googs.login',grp_id=request.args.get('grp_id'),inv_id=request.args.get('inv_id')) }}">invited(LOGIN by GOO) - {{request.args.get('grp_id')}}</a></li>
+                {% endif %}
+
+    </ul>
+          {% if current_user.is_authenticated()%}
+     <ul class="nav navbar-nav">
+        <li><a href="{{ url_for_security('logout')}}">Logout</a></li>
+        <li><a href="{{ url_for('admin.create_admin')}}">Create Your Admin</a></li>
+        <li><a href="{{ url_for('settings.user_invite')}}">Invite into group</a></li>
+        <li><a href="{{ url_for('user.users_in_my_group')}}">Users in my group</a></li>
+               {% if current_user.provider not in ['google','facebook','twitter'] %}
+        <li><a href="{{ url_for_security('change_password')}}">ChangePassword</a></li>
+               {% endif %}
+        <li><a href="{{ url_for('settings.update_profile')}}">Profile</a></li>
+          {% endif %}
+
+    </ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated() %}
+        <p class="navbar-text navbar-right">Signed in as :<span><strong>{{ current_user.email }}</strong>{% endif %} {% if (current_user.is_authenticated()) and (current_user.provider in ['google', 'facebook', 'twitter']) %} provider : <strong>{{current_user.provider}} </strong>{% endif %}</span>
+        </p>
+
+    </div>
+ </div>
+ {% endblock %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+
+        {% block flash_message %}
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                <div class="row">
+                    <div id='flash_message_container' class='col-lg-12'>
+                        {% for category, msg in messages %}
+                         {% if not msg.authkey %}
+                            <div class="alert alert-{{ category }}">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                 {{ msg }}
+                                 {% endif %}
+                            </div>
+                            {% if msg.authkey %}
+                             <script>
+                                // The ID of the extension we want to talk to.
+                                  var editorExtensionId = "hocmlcjkdkdabilgcjaliakamjkadihd";
+                                // Make a simple request:
+                                  chrome.runtime.sendMessage(editorExtensionId, {"auth":"{{msg.authkey}}"},
+                                function(response) {
+                                });
+                              </script>
+                                {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
+
+        {% block content %}
+
+    {% block body %}
+
+    <h4>This is the hello page...this is for user</h4>
+
+    {% endblock %}
+{% endblock %}
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <div class="container">
+    this is the bottom of the navbar
+  </div>
+</nav>
+</div>
+</body>
+</html>

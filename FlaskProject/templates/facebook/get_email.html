@@ -1,0 +1,15 @@
+
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+
+<h1>Give your Email Adress</h1>
+<p><h5>We have not find any email address from your profile. But to proceed further you have to give an email address</h5></p>
+<form action="{% if session['emailreq'] %}/fbook/get_email {% elif session['twit_emailreq'] %}/twits/get_email {% endif %}" method="POST">
+  <div class="row">
+    <div class="col-lg-6">
+  {{ render_all_errors(form)}}
+  {{ render_field_without_errors(form.email) }}
+
+   <p><input type=submit value=Submit></p>
+</form>
+ </div>
+</div>

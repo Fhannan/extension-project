@@ -1,0 +1,18 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+{% from "security/_macros.html" import render_field_without_errors, render_field, render_all_errors %}
+
+<h1>Create your Admin</h1>
+<p>Give an email address of registered user and make that user admin</p>
+<form action="create_admin" method="POST">
+  <div class="row">
+    <div class="col-lg-6">
+  {{ render_all_errors(form)}}
+  {{ render_field_without_errors(form.email) }}
+
+   <p><input type=submit value=Create></p>
+</form>
+ </div>
+</div>
+
+ {% endblock %}
